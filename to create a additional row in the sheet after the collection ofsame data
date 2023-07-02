@@ -1,0 +1,37 @@
+import openpyxl
+
+def create_row_gap(sheet, column_index):
+    """Creates a row gap after the same data in the specified column of the sheet.
+
+    Args:
+        sheet: The Excel sheet to modify.
+        column_index: The index of the column to check for same data.
+    """
+    previous_data = None
+    loopornot=False
+    count=0
+    for row in sheet.iter_rows():
+
+        current_data = row[column_index - 1].value
+        print(current_data,previous_data)
+        if current_data != previous_data:
+            print('Row is inserted here')
+            sheet.insert_rows(row[0].row, 1)
+            previous_data = current_data
+            loopornot=True
+
+        else:
+            previous_data = current_data
+            loopornot=False
+
+# Open the workbook
+workbook = openpyxl.load_workbook('your file.xlsx')
+
+# Select the active sheet
+sheet = workbook.active
+
+# Call the function to create the row gap, specifying the column index
+create_row_gap(sheet, 6)  # Change the column index if needed
+
+# Save the modified workbook
+workbook.save('new your file .xlsx')
